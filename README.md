@@ -50,7 +50,7 @@ MONGODB_URI=mongodb://localhost:27017/league
 ## Endpoints disponibles
 
 ### Champions
-- `POST /champions/fetch/all` - Récupère et sauvegarde tous les champions dans la base de données
+- `POST /champions/fetch/all` - Récupère et sauvegarde tous les champions du dernier patch dans la base de données
 - `GET /champions/all/:patch` - Liste tous les champions disponibles dans un patch spécifique / Exemple : http://localhost:3000/champions/all/15.7.1
 - `GET /champions/:id/:patch` - Récupère les informations d'un champion spécifique dans un patch spécifique / Exemple : http://localhost:3000/champions/Aatrox/15.7.1
 
