@@ -1,16 +1,16 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { AccountService } from './account.service';
 import { AccountDTO } from './dto/account.dto';
 import { SummonerDTO } from './dto/summoner.dto';
-import { LolService } from './lol.service';
 
 interface CombinedAccountInfo {
   account: AccountDTO;
   summoner: SummonerDTO;
 }
 
-@Controller('lol')
-export class LolController {
-  constructor(private readonly lolService: LolService) {}
+@Controller('account')
+export class AccountController {
+  constructor(private readonly AccountService: AccountService) {}
 
   // Ancienne version avec deux appel API
 
@@ -31,11 +31,11 @@ export class LolController {
 
   // Nouvelle version en 1 appel API
 
-  @Get('account/:gameName/:tagLine')
+  @Get(':gameName/:tagLine')
   async getFullAccount(
     @Param('gameName') gameName: string,
     @Param('tagLine') tagLine: string,
   ): Promise<CombinedAccountInfo> {
-    return this.lolService.getFullAccountInfo(gameName, tagLine);
+    return this.AccountService.getFullAccountInfo(gameName, tagLine);
   }
 }

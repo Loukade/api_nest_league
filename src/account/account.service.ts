@@ -16,38 +16,26 @@ interface CombinedAccountInfo {
 dotenv.config();
 
 @Injectable()
-export class LolService {
+export class AccountService {
   private readonly API_KEY = process.env.RIOT_API_KEY;
   private readonly BASE_URL = 'https://euw1.api.riotgames.com/lol';
   private readonly BASE_URL_EUROPE = 'https://europe.api.riotgames.com/riot';
 
   constructor(private readonly httpService: HttpService) {}
 
-  async getFullAccountInfo(
-    gameName: string,
-    tagLine: string,
-  ): Promise<CombinedAccountInfo> {
+  async getFullAccountInfo(gameName: string, tagLine: string): Promise<CombinedAccountInfo> {
     const account = await this.getAccountByRiotId(gameName, tagLine);
     const summoner = await this.getAccountByPUUID(account.puuid);
-    const champion_mastery = await this.getChampionMasteryByPUUID(
-      account.puuid,
-    );
+    const champion_mastery = await this.getChampionMasteryByPUUID(account.puuid);
     return { account, summoner, champion_mastery };
   }
 
-  async getAccountByRiotId(
-    gameName: string,
-    tagLine: string,
-  ): Promise<AccountDTO> {
-    const url =
-      this.BASE_URL_EUROPE +
-      `/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
+  async getAccountByRiotId(gameName: string, tagLine: string): Promise<AccountDTO> {
+    const url = this.BASE_URL_EUROPE + `/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
     const headers = { 'X-Riot-Token': this.API_KEY };
 
     try {
-      const response = await firstValueFrom(
-        this.httpService.get<AccountDTO>(url, { headers }),
-      );
+      const response = await firstValueFrom(this.httpService.get<AccountDTO>(url, { headers }));
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -59,14 +47,11 @@ export class LolService {
   }
 
   async getAccountByPUUID(encryptedPUUID: string): Promise<SummonerDTO> {
-    const url =
-      this.BASE_URL + `/summoner/v4/summoners/by-puuid/${encryptedPUUID}`;
+    const url = this.BASE_URL + `/summoner/v4/summoners/by-puuid/${encryptedPUUID}`;
     const headers = { 'X-Riot-Token': this.API_KEY };
 
     try {
-      const response = await firstValueFrom(
-        this.httpService.get<SummonerDTO>(url, { headers }),
-      );
+      const response = await firstValueFrom(this.httpService.get<SummonerDTO>(url, { headers }));
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -77,12 +62,9 @@ export class LolService {
     }
   }
 
-  async getChampionMasteryByPUUID(
-    encryptedPUUID: string,
-  ): Promise<ChampionMasteryDto[]> {
+  async getChampionMasteryByPUUID(encryptedPUUID: string): Promise<ChampionMasteryDto[]> {
     const url =
-      this.BASE_URL +
-      `/champion-mastery/v4/champion-masteries/by-puuid/${encryptedPUUID}/top`;
+      this.BASE_URL + `/champion-mastery/v4/champion-masteries/by-puuid/${encryptedPUUID}/top`;
     const headers = { 'X-Riot-Token': this.API_KEY };
 
     try {
