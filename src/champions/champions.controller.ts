@@ -9,8 +9,13 @@ export class ChampionsController {
   @Post('fetch/all')
   async fetchChampions() {
     try {
-      await this.championsService.fetchAndSaveChampions();
-      return { message: 'Champions récupérés et sauvegardés avec succès' };
+      const results = await this.championsService.fetchAndSaveChampions();
+      const generalMessage =
+        results.length > 0
+          ? 'Champions récupérés et sauvegardés avec succès.'
+          : 'Aucun champion à sauvegarder.';
+
+      return { message: generalMessage };
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : 'Erreur lors de la récupération des champions';

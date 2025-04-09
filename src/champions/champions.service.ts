@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { firstValueFrom } from 'rxjs';
 import { PatchesService } from '../patches/patches.service';
-import { ChampionResponse } from './dto/champion.dto';
+import { ChampionResponse, ChampionResult } from './dto/champion.dto';
 import { Champion, ChampionDocument } from './schemas/champion.schema';
 
 @Injectable()
@@ -25,6 +25,8 @@ export class ChampionsService {
     const response = await firstValueFrom(this.httpService.get<ChampionResponse>(url));
     const champions = response.data.data;
 
+    const results: ChampionResult[] = []; // Tableau pour stocker les résultats
+
     for (const key of Object.keys(champions)) {
       const championUrl = `https://ddragon.leagueoflegends.com/cdn/${latestPatch.version}/data/fr_FR/champion/${key}.json`;
       const championResponse = await firstValueFrom(
@@ -39,6 +41,7 @@ export class ChampionsService {
       });
 
       if (!existingChampion) {
+        // Si le champion n'existe pas, le créer
         const champion = new this.championModel({
           id: championData.id,
           name: championData.name,
@@ -51,8 +54,11 @@ export class ChampionsService {
           patch: latestPatch.version,
         });
         await champion.save();
+        results.push({ name: championData.name, exists: false }); // Ajouter au tableau
       }
     }
+
+    return results; // Retourner les résultats
   }
 
   async getChampionByPatch(id: string, patch: string): Promise<ChampionDocument | null> {

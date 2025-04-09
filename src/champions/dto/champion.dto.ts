@@ -43,3 +43,8 @@ export interface ChampionResponse {
     [key: string]: ChampionData;
   };
 }
+
+export interface ChampionResult {
+  name: string;
+  exists: boolean;
+}
