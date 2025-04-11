@@ -58,6 +58,58 @@ export class Champion {
     attackspeed: number;
   };
 
+  @Prop({ required: true, type: [Object] })
+  spells: {
+    id: string;
+    name: string;
+    description: string;
+    tooltip: string;
+    leveltip: {
+      label: string[];
+      effect: string[];
+    };
+    maxrank: number;
+    cooldown: number[];
+    cooldownBurn: string;
+    cost: number[];
+    costBurn: string;
+    effect: (number[] | null)[];
+    effectBurn: string[];
+    vars: any[];
+    costType: string;
+    maxammo: string;
+    range: number[];
+    rangeBurn: string;
+    image: {
+      full: string;
+      sprite: string;
+      group: string;
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    };
+    resource: string;
+  }[];
+
+  @Prop({ required: true, type: Object })
+  passive: {
+    name: string;
+    description: string;
+    image: {
+      full: string;
+      sprite: string;
+      group: string;
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    };
+  };
+
+  @Prop({ required: true })
+  lore: string;
+
   @Prop({ required: true })
   patch: string;
 }
