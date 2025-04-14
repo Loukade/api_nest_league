@@ -1,98 +1,100 @@
 # API_Nest_League
 
-Une API NestJS permettant d'interagir avec l'API de League of Legends et de stocker les données en base de données MongoDB pour optimiser les performances.
+A NestJS API that interacts with the League of Legends API and stores data in a MongoDB database to optimize performance.
 
-## Prérequis
+## Prerequisites
 
-- Node.js (version 14 ou supérieure)
+- Node.js (version 14 or higher)
 - MongoDB
-- Une clé API Riot Games
+- A Riot Games API key
 
 ## Installation
 
-1. Cloner le repository :
+1. Clone the repository:
 ```bash
 git clone https://github.com/Loukade/api_nest_league.git
 cd api_nest_league
 ```
 
-2. Installer les dépendances :
+2. Install dependencies:
 ```bash
 npm install
 ```
 
 ## Configuration
 
-Créez un fichier `.env` à la racine du projet avec les variables suivantes :
+Create a `.env` file at the root of the project with the following variables:
 
 ```env
-# Clé API Riot Games (obtenue sur https://developer.riotgames.com/)
-RIOT_API_KEY=votre_clé_api_riot
+# Riot Games API Key (get it from https://developer.riotgames.com/)
+RIOT_API_KEY=your_riot_api_key
 
-# URL de connexion à MongoDB
+# MongoDB connection URL
 MONGODB_URI=mongodb://localhost:27017/league
 ```
 
-### Obtention de la clé API Riot Games
+### Getting a Riot Games API Key
 
-1. Créez un compte sur [Riot Developer Portal](https://developer.riotgames.com/)
-2. Générez une nouvelle clé API
-3. Copiez la clé dans votre fichier `.env`
+1. Create an account on the [Riot Developer Portal](https://developer.riotgames.com/)
+2. Generate a new API key
+3. Copy the key into your `.env` file
 
-## Fonctionnalités
+## Features
 
-- Récupération et stockage des champions
-- Gestion des versions de patch
-- Gestion des comptes joueurs
-- Stockage des données en base de données MongoDB
-- API RESTful pour accéder aux données
+- Retrieve and store champion data
+- Patch version management
+- Player account management
+- Store data in MongoDB
+- RESTful API to access data
 
-## Endpoints disponibles
+## Available Endpoints
 
 ### Champions
-- `POST /champions/fetch/all` - Récupère et sauvegarde tous les champions du dernier patch dans la base de données
-- `GET /champions/all/:patch` - Liste tous les champions disponibles dans un patch spécifique / Exemple : http://localhost:3000/champions/all/15.7.1
-- `GET /champions/:id/:patch` - Récupère les informations d'un champion spécifique dans un patch spécifique / Exemple : http://localhost:3000/champions/Aatrox/15.7.1
+- `POST /champions/fetch/all` - Fetch and save all champions from the latest patch into the database
+- `GET /champions/all/:patch` - List all champions available in a specific patch / Example: http://localhost:3000/champions/all/15.7.1
+- `GET /champions/:id/:patch` - Retrieve information about a specific champion in a specific patch / Example: http://localhost:3000/champions/Aatrox/15.7.1
 
 ### Patches
-- `POST /patches/fetch/all` - Récupère et sauvegarde les nouvelles versions de patch dans la base de données
-- `GET /patches/all` - Liste toutes les versions de patch (triées du plus récent au plus ancien)
-- `GET /patches/latest` - Récupère la dernière version de patch disponible
+- `POST /patches/fetch/all` - Fetch and save new patch versions in the database
+- `GET /patches/all` - List all patch versions (sorted from newest to oldest)
+- `GET /patches/latest` - Retrieve the latest available patch version
 
-### Comptes
-- `GET /account/:gameName/:tagLine` - Récupère les informations complètes d'un compte joueur (compte, summoner et maîtrise des champions) / Exemple : http://localhost:3000/account/Loukade/1434
+### Accounts
+- `GET /account/:gameName/:tagLine` - Retrieve full information about a player account (account, summoner, and champion mastery) / Example: http://localhost:3000/account/Loukade/1434
 
-## Démarrage
+## Getting Started
 
 ```bash
-# Développement
+# Development
 npm run start:dev
 ```
 
-## Structure du projet
+## Project Structure
 
 ```
 src/
-├── account/            # Module des comptes joueurs
+├── account/            # Player account module
 │   ├── account.controller.ts
 │   ├── account.module.ts
 │   ├── account.service.ts
-│   └── dto/           # Data Transfer Objects
+│   └── dto/            # Data Transfer Objects
 │       ├── account.dto.ts
 │       ├── summoner.dto.ts
 │       └── champion-mastery.dto.ts
-├── champions/         # Module des champions
+├── champions/          # Champions module
 │   ├── champions.controller.ts
 │   ├── champions.module.ts
 │   ├── champions.service.ts
-│   └── schemas/       # Schémas MongoDB
+    └── dto/            # Data Transfer Objects
+        ├── champion.dto.ts
+│   └── schemas/        # MongoDB Schemas
 │       └── champion.schema.ts
-├── patches/          # Module des patches
+    
+├── patches/            # Patches module
 │   ├── patches.controller.ts
 │   ├── patches.module.ts
 │   ├── patches.service.ts
-│   └── schemas/      # Schémas MongoDB
+│   └── schemas/        # MongoDB Schemas
 │       └── patch.schema.ts
-└── main.ts          # Point d'entrée de l'application
+└── main.ts             # Application entry point
 ```
-
