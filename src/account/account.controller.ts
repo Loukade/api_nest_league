@@ -3,6 +3,7 @@ import { AccountService } from './account.service';
 import { AccountDTO } from './dto/account.dto';
 import { ChampionMasteryDto } from './dto/champion-mastery.dto';
 import { MatchHistoryDto } from './dto/match-history.dto';
+import { RankedDto } from './dto/ranked.dto';
 import { SummonerDTO } from './dto/summoner.dto';
 
 interface CombinedAccountInfo {
@@ -10,6 +11,7 @@ interface CombinedAccountInfo {
   summoner: SummonerDTO;
   champion_mastery: ChampionMasteryDto[];
   match_history?: MatchHistoryDto[];
+  ranked?: RankedDto[];
 }
 
 @Controller('account')
@@ -50,5 +52,15 @@ export class AccountController {
   ): Promise<MatchHistoryDto[]> {
     const account = await this.AccountService.getAccountByRiotId(gameName, tagLine);
     return this.AccountService.getMatchHistoryByPUUID(account.puuid);
+  }
+
+  @Get(':gameName/:tagLine/ranked')
+  async getRanked(
+    @Param('gameName') gameName: string,
+    @Param('tagLine') tagLine: string,
+  ): Promise<RankedDto[]> {
+    const account = await this.AccountService.getAccountByRiotId(gameName, tagLine);
+    const summoner = await this.AccountService.getAccountByPUUID(account.puuid);
+    return this.AccountService.getRankedBySummonerId(summoner.id);
   }
 }

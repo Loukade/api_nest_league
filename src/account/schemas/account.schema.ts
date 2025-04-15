@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { ChampionMasteryDto } from '../dto/champion-mastery.dto';
 import { MatchHistoryDto } from '../dto/match-history.dto';
+import { RankedDto } from '../dto/ranked.dto';
 import { SummonerDTO } from '../dto/summoner.dto';
 
 export type AccountDocument = Account & Document;
@@ -25,6 +26,9 @@ export class Account {
 
   @Prop([{ type: Object }])
   matchHistory: MatchHistoryDto[];
+
+  @Prop([{ type: Object }])
+  ranked: RankedDto[];
 
   @Prop({ type: Date, default: Date.now })
   lastUpdated: Date;
