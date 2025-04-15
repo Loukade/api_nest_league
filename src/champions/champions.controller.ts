@@ -61,4 +61,25 @@ export class ChampionsController {
       throw new HttpException(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @Get('key/:key/:patch')
+  async getChampionByKeyAndPatch(
+    @Param('key') key: string,
+    @Param('patch') patch: string,
+  ): Promise<ChampionDocument | null> {
+    try {
+      const champion = await this.championsService.getChampionByKeyAndPatch(key, patch);
+      if (!champion) {
+        throw new HttpException('Champion non trouvé', HttpStatus.NOT_FOUND);
+      }
+      return champion;
+    } catch (error: unknown) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      const message =
+        error instanceof Error ? error.message : 'Erreur lors de la récupération du champion';
+      throw new HttpException(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

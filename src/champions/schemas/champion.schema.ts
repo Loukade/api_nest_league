@@ -12,6 +12,9 @@ export class Champion {
   name: string;
 
   @Prop({ required: true })
+  key: number;
+
+  @Prop({ required: true })
   title: string;
 
   @Prop({ required: true })

@@ -45,6 +45,7 @@ export class ChampionsService {
         const champion = new this.championModel({
           id: championData.id,
           name: championData.name,
+          key: championData.key,
           title: championData.title,
           blurb: championData.blurb,
           image: championData.image,
@@ -90,6 +91,10 @@ export class ChampionsService {
 
   async getChampionByPatch(id: string, patch: string): Promise<ChampionDocument | null> {
     return await this.championModel.findOne({ id, patch }).exec();
+  }
+
+  async getChampionByKeyAndPatch(key: string, patch: string): Promise<ChampionDocument | null> {
+    return await this.championModel.findOne({ key, patch }).exec();
   }
 
   async getChampionsByPatch(patch: string): Promise<ChampionDocument[]> {
