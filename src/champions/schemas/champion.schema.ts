@@ -5,7 +5,7 @@ export type ChampionDocument = HydratedDocument<Champion>;
 
 @Schema()
 export class Champion {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   id: string;
 
   @Prop({ required: true })
@@ -118,3 +118,6 @@ export class Champion {
 }
 
 export const ChampionSchema = SchemaFactory.createForClass(Champion);
+
+// Ajout d'un index composé unique sur id et patch
+ChampionSchema.index({ id: 1, patch: 1 }, { unique: true });
